@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资源下载 - 探星阁（物理与天文分部）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.7;
+            color: #2d3748;
+            background-color: #f7fafc;
+        }
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0 30px;
+            padding: 10px 20px;
+            background: #4299e1;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(66, 153, 225, 0.1);
+        }
+        .back-btn:hover {
+            background: #2b6cb0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(66, 153, 225, 0.2);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 0;
+            background: linear-gradient(120deg, #4299e1, #38b2ac);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+            transform: translateY(0);
+            transition: transform 0.5s ease;
+        }
+        .header:hover {
+            transform: translateY(-3px);
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .content-section {
+            margin-bottom: 60px;
+        }
+        .content-section h2 {
+            color: #2d3748;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+        .content-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #4299e1;
+            transition: width 0.4s ease;
+        }
+        .content-section h2:hover::after {
+            width: 100%;
+        }
+        .content-section p {
+            font-size: 1.05rem;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            transition: color 0.2s ease;
+        }
+        .content-section p:hover {
+            color: #2b6cb0;
+        }
+
+        /* 一级大类卡片：理论物理系列讲义 */
+        .main-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 添加展开/收起的箭头指示器 */
+        .main-card::after {
+            content: '▼';
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #4299e1;
+            transition: transform 0.4s ease;
+        }
+        .main-card.expanded::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .main-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(66, 153, 225, 0.15);
+        }
+        .main-card h2 {
+            font-size: 1.5rem;
+            color: #2b6cb0;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+        .main-card:hover h2 {
+            color: #4299e1;
+        }
+
+        /* 二级子卡片：各种力学 - 优化展开动画 */
+        .sub-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            /* 替换display:none为高度+透明度实现丝滑动画 */
+            height: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(20px);
+        }
+        .sub-card-grid.show {
+            height: auto;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            padding-bottom: 10px; /* 避免内容紧贴 */
+        }
+        .sub-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 子卡片悬停时的渐变背景效果 */
+        .sub-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.05), transparent);
+            transition: left 0.8s ease;
+        }
+        .sub-card:hover::before {
+            left: 100%;
+        }
+        .sub-card:hover {
+            transform: translateY(-6px) scale(1.02); /* 轻微缩放+上移 */
+            box-shadow: 0 10px 20px rgba(66, 153, 225, 0.15);
+        }
+        .sub-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            transition: transform 0.4s ease;
+        }
+        .sub-card:hover img {
+            transform: scale(1.05); /* 图片轻微放大 */
+        }
+        .sub-card h3 {
+            font-size: 1.1rem;
+            color: #2b6cb0;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .sub-card:hover h3 {
+            color: #4299e1;
+        }
+
+        @media (max-width: 768px) {
+            .sub-card-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-card::after {
+                font-size: 1rem;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">← 返回首页</a>
+
+<div class="header">
+    <h1>资源中心</h1>
+</div>
+
+<div class="content-section">
+    <h2>下载说明</h2>
+    <p>1. 探星阁资源均为免费分享，转载请注明出处，禁止私自商用；</p>
+    <p>2. 点击对应讲义卡片进入详情页，可找到PDF下载门户；</p>
+    <p>3. 若下载链接失效，请通过邮件或公众号反馈，我们会及时更新；</p>
+</div>
+
+<div class="content-section">
+    <!-- 一级大类卡片：只显示这一个 -->
+    <div class="main-card" id="mainCard" onclick="toggleSubCards()">
+        <h2>理论物理系列讲义</h2>
+    </div>
+
+    <!-- 二级子卡片：默认隐藏，点上面才显示 -->
+    <div class="sub-card-grid" id="subCardGrid">
+        <div class="sub-card" onclick="window.location.href='theoretical mechanics.html'">
+            <img src="cover1.jpg" alt="理论力学讲义封面">
+            <h3>理论力学</h3>
+        </div>
+        <div class="sub-card" onclick="window.location.href='electrodynamics.html'">
+            <img src="cover2.jpg" alt="电动力学讲义封面">
+            <h3>电动力学</h3>
+        </div>
+        <div class="sub-card" onclick="window.location.href='quantum-mechanics.html'">
+            <img src="cover3.jpg" alt="量子力学讲义封面">
+            <h3>量子力学</h3>
+        </div>
+        <div class="sub-card" onclick="window.location.href='thermodynamics.html'">
+            <img src="cover4.jpg" alt="热力学与统计物理讲义封面">
+            <h3>热力学与统计物理</h3>
+        </div>
+    </div>
+</div>
+
+<script>
+// 存储状态的key
+const EXPANDED_STATE_KEY = 'physics_cards_expanded';
+
+// 页面加载时恢复状态
+window.addEventListener('DOMContentLoaded', function() {
+    // 从localStorage获取保存的状态
+    const isExpanded = localStorage.getItem(EXPANDED_STATE_KEY) === 'true';
+    
+    if (isExpanded) {
+        // 恢复展开状态
+        document.getElementById('subCardGrid').classList.add('show');
+        document.getElementById('mainCard').classList.add('expanded');
+    }
+});
+
+function toggleSubCards() {
+    const subCardGrid = document.getElementById('subCardGrid');
+    const mainCard = document.getElementById('mainCard');
+    
+    // 切换子卡片显示状态
+    const isNowExpanded = subCardGrid.classList.toggle('show');
+    // 切换主卡片展开状态（用于箭头旋转）
+    mainCard.classList.toggle('expanded');
+    
+    // 将当前状态保存到localStorage
+    localStorage.setItem(EXPANDED_STATE_KEY, isNowExpanded);
+}
+</script>
+
+</body>
+</html>
