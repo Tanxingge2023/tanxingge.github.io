@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <title>电动力学讲义下载</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* 基础布局：背景铺满全屏 */
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            color: #e2e8f0;
+            /* 深空渐变背景 + fixed固定 */
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* 星空粒子层：和全站一致 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.6;
+            z-index: -1;
+            pointer-events: none;
+            transition: transform 0.1s ease;
+        }
+        /* 内容容器：控制宽度，和全站一致 */
+        .page-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        /* 返回按钮：适配深空风格 */
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0 30px;
+            padding: 10px 24px;
+            background: rgba(15, 23, 42, 0.7);
+            color: #60a5fa;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            box-shadow: 0 4px 12px rgba(7, 14, 26, 0.2);
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 按钮光效 */
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0), rgba(96, 165, 250, 0.4), rgba(66, 153, 225, 0));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .back-btn:hover {
+            transform: translateY(-4px);
+            background: rgba(15, 23, 42, 0.9);
+            color: #93c5fd;
+            box-shadow: 0 8px 24px rgba(7, 14, 26, 0.3);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+        .back-btn:hover::before {
+            opacity: 1;
+        }
+        /* 详情容器：适配深空风格 */
+        .detail-container {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(7, 14, 26, 0.4);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            backdrop-filter: blur(8px);
+        }
+        .detail-container h1 {
+            color: #60a5fa;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.2);
+        }
+        .detail-container img {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            margin: 0 auto 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            transition: transform 0.4s ease;
+        }
+        .detail-container img:hover {
+            transform: scale(1.02);
+        }
+        .detail-container p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        /* PDF下载按钮：适配深空风格 */
+        .pdf-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(15, 23, 42, 0.8);
+            color: #60a5fa;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(7, 14, 26, 0.2);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+        /* PDF按钮光效 */
+        .pdf-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0), rgba(96, 165, 250, 0.4), rgba(66, 153, 225, 0));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .pdf-btn:hover {
+            transform: translateY(-4px);
+            background: rgba(15, 23, 42, 0.95);
+            color: #93c5fd;
+            box-shadow: 0 8px 24px rgba(7, 14, 26, 0.3);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+        .pdf-btn:hover::before {
+            opacity: 1;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 15px;
+            }
+            .detail-container {
+                padding: 20px;
+            }
+            .detail-container h1 {
+                font-size: 1.6rem;
+            }
+            .pdf-btn {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="resource-download.html" class="back-btn">← 返回资源中心</a>
+        <div class="detail-container">
+            <h1>电动力学</h1>
+            <img src="cover2.jpg" alt="电动力学讲义封面">
+            <p>本讲义核心内容包括：</p>
+            <p>· 麦克斯韦方程组的推导与物理解释<br>
+               · 静电场、静磁场<br>
+               · 电磁波的传播<br>
+               · 狭义相对论<br>
+               · 电磁辐射</p>
+            <a href="2.pdf" class="pdf-btn" target="_blank">PDF</a>
+        </div>
+    </div>
+
+    <!-- 鼠标交互：粒子层跟随鼠标移动 -->
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            document.querySelector('body::before').style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body>
+</html>

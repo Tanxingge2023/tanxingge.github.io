@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <title>关于探星阁 - 探星阁（物理与天文分部）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            color: #e2e8f0;
+            /* 背景固定，避免滚动/偏移问题 */
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%) fixed;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .page-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative; /* 确保内容在粒子上层 */
+            z-index: 1;
+        }
+        /* 星空粒子修复：层级、定位、渲染优化 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%; /* 改用100%避免vw兼容性问题 */
+            height: 100%; /* 改用100%避免vh兼容性问题 */
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.6;
+            z-index: 0; /* 调整层级，确保在内容下层、背景上层 */
+            pointer-events: none; /* 避免遮挡交互 */
+        }
+        /* 返回按钮 */
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0 30px;
+            padding: 10px 20px;
+            background: linear-gradient(120deg, #1e293b, #0f172a);
+            color: #60a5fa;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            box-shadow: 0 4px 12px rgba(7, 14, 26, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        .back-btn:hover {
+            background: linear-gradient(120deg, #2d3748, #1e293b);
+            color: #93c5fd;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(7, 14, 26, 0.3);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+        /* 内容容器 */
+        .detail-container {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(7, 14, 26, 0.4), 0 0 0 1px rgba(66, 153, 225, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            backdrop-filter: blur(8px);
+            position: relative;
+            z-index: 2;
+        }
+        .detail-container h1 {
+            color: #60a5fa;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.2);
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.2);
+        }
+        .detail-container p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            text-indent: 2em;
+            line-height: 1.8;
+        }
+        .detail-container .intro-img {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 15px;
+            }
+            .detail-container {
+                padding: 20px;
+            }
+            .detail-container h1 {
+                font-size: 1.6rem;
+            }
+            .detail-container p {
+                font-size: 1rem;
+                text-indent: 1em;
+            }
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="index.html" class="back-btn">← 返回首页</a>
+
+        <div class="detail-container">
+            <h1>关于探星阁</h1>
+            <p>探星阁是D.Liang他的小伙伴们在2023年高考完创建的。“探星阁”正是我们高中班级的班名，寓意着知识与真理就像天上的星星，而我们是上下求索的探星者。就像古代文人墨客的阁楼一样，探星阁是我们现代学生、学者的Club，是渴望知识者、探求真理者所活跃的平台。“求真”与“向善”既是取自我们高中时期的班呼，也是探星阁的宗旨。</p>
+
+            <p>求真，意味着探星阁关注于探求、分享真理，而物理与天文分部则专精于物理、天文领域的专业知识讲义与科普文章的分享，内容多为原创，转载的内容我们会注明出处。</p>
+
+            <p>向善，意味着探星阁的一切项目均为非盈利项目。我们的目标是为真正热爱科学、热爱探索科学的学生、学者们提供一个获取资源、交流提升的平台，同时也为营造国家的科学文化贡献绵薄之力。</p>
+
+            <p>必须指出，探星阁目前由大学生在运营，水平极其有限；因此，探星阁上一切的资源资料还请大家辩证看待，仅供参考，也欢迎批评指正！</p>
+
+            <p>热烈欢迎加入我们，和我们一起逐梦探星！（联系邮箱：tanxg2023@163.com）</p>
+        </div>
+    </div>
+
+    <!-- 修复鼠标交互：只偏移粒子层，不偏移背景 -->
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            // 只修改粒子层的位置，不修改body背景
+            document.querySelector('body::before').style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body>
+</html>

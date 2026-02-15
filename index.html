@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 正确配置jpg格式的favicon -->
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <title>探星阁（物理与天文分部）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            line-height: 1.7;
+            color: #e2e8f0;
+            /* 天文星空背景 */
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* 星空粒子效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.6;
+            z-index: -1;
+        }
+        .content-wrapper {
+            padding: 0 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* 物理天文风格头部 */
+        .header {
+            text-align: center;
+            margin: 40px 0;
+            padding: 40px 30px;
+            /* 渐变调整为深空蓝+科技青 */
+            background: linear-gradient(120deg, #0f172a, #1e293b);
+            color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(7, 14, 26, 0.4), 0 0 0 1px rgba(66, 153, 225, 0.2);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 轨道装饰效果 */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            border: 1px dashed rgba(96, 165, 250, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: orbit 80s linear infinite;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            border: 1px dashed rgba(56, 189, 248, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: orbit 60s linear reverse infinite;
+        }
+        @keyframes orbit {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+        }
+        .header-subtitle {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            color: #94a3b8;
+            position: relative;
+            z-index: 1;
+        }
+        .content-section {
+            margin-bottom: 60px;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .content-section h2 {
+            color: #60a5fa;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .content-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, transparent);
+        }
+        .content-section p {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+
+        /* 物理天文风格卡片布局 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .card-item {
+            /* 深空卡片背景 */
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(66, 153, 225, 0.1);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            backdrop-filter: blur(8px);
+        }
+        /* 卡片悬浮效果：物理引力感+光效 */
+        .card-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 32px rgba(7, 14, 26, 0.5), 0 0 0 1px rgba(66, 153, 225, 0.3);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+        /* 卡片光效边框 */
+        .card-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0), rgba(96, 165, 250, 0.4), rgba(66, 153, 225, 0));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .card-item:hover::before {
+            opacity: 1;
+        }
+        .card-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        .card-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, 0.8) 100%);
+            z-index: 1;
+        }
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            filter: contrast(1.1) brightness(0.9);
+        }
+        .card-item:hover .card-img img {
+            transform: scale(1.08);
+            filter: contrast(1.2) brightness(1);
+        }
+        .card-content {
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 12px;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.2);
+        }
+        .card-desc {
+            font-size: 1rem;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .content-section h2 {
+                font-size: 1.5rem;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .card-img {
+                height: 180px;
+            }
+            .card-title {
+                font-size: 1.3rem;
+            }
+            .header {
+                padding: 30px 20px;
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="header" id="home">
+            <h1>探星阁</h1>
+            <div class="header-subtitle">物理与天文分部 · 探索宇宙的奥秘</div>
+        </div>
+
+        <div class="content-section" id="about">
+            <h2>关于本网站</h2>
+            <p>本网站是探星阁·物理与天文分部官方网站，致力于分享物理与天文领域的相关资源，搭建知识的桥梁。不论你是专业学生、学者，还是业余科学爱好者，在此都能找到自己的乐趣。点击下方卡片，开启你的探索之旅！</p>
+        </div>
+
+        <!-- 核心：三个功能卡片 -->
+        <div class="card-grid">
+            <!-- 卡片1：关于探星阁 -->
+            <a href="about-txg.html" class="card-item">
+                <div class="card-img">     
+                    <!-- 替换成你的图片地址，建议尺寸：300x200 -->
+                    <img src="main1.jpg" alt="关于探星阁 - 物理与天文科普">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">关于探星阁</div>
+                    <div class="card-desc">了解探星阁的发展历程、团队介绍及核心宗旨</div>
+                </div>
+            </a>
+
+            <!-- 卡片2：学科讲义 -->
+            <a href="resource-download.html" class="card-item">
+                <div class="card-img">
+                    <!-- 替换成你的图片地址，建议尺寸：300x200 -->
+                    <img src="main2.jpg" alt="物理天文资源下载">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">科学讲义</div>
+                    <div class="card-desc">获取物理与天文相关科学讲义</div>
+                </div>
+            </a>
+
+              <!-- 卡片3：科普资源 -->
+            <a href="sci-pub.html" class="card-item">
+                <div class="card-img">
+                    <!-- 替换成你的图片地址，建议尺寸：300x200 -->
+                    <img src="main3.jpg" alt="科普资源下载">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">科普资源</div>
+                    <div class="card-desc">获取物理与天文相关的科普资源</div>
+                </div>
+            </a>
+            
+             <!-- 卡片：科学社区 -->
+            <a href="sci-pub.html" class="card-item">
+                <div class="card-img">
+                    <!-- 替换成你的图片地址，建议尺寸：300x200 -->
+                    <img src="main4.jpg" alt="科学社区">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">科学社区</div>
+                    <div class="card-desc">“三人行，必有我师焉”，分享你的科学故事</div>
+                </div>
+            </a>
+
+            <!-- 卡片：联系我们 -->
+            <a href="contact-us.html" class="card-item">
+                <div class="card-img">
+                    <!-- 替换成你的图片地址，建议尺寸：300x200 -->
+                    <img src="https://picsum.photos/seed/contact/600/400" alt="联系我们 - 天文物理交流">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">联系我们</div>
+                    <div class="card-desc">官方邮箱、微信公众号</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 星空粒子动效增强（可选）
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            document.body.style.backgroundPosition = `${moveX}px ${moveY}px`;
+        });
+    </script>
+</body>
+</html>

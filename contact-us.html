@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <title>联系我们 - 探星阁（物理与天文分部）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* 基础布局：背景铺满全屏 */
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            color: #e2e8f0;
+            /* 深空渐变背景 + fixed固定 */
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* 星空粒子层：和全站一致 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.6;
+            z-index: -1;
+            pointer-events: none;
+            transition: transform 0.1s ease;
+        }
+        /* 内容容器：控制宽度，和全站一致 */
+        .page-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        /* 返回按钮：适配深空风格 */
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0 30px;
+            padding: 10px 24px;
+            background: rgba(15, 23, 42, 0.7);
+            color: #60a5fa;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            box-shadow: 0 4px 12px rgba(7, 14, 26, 0.2);
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 按钮光效 */
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0), rgba(96, 165, 250, 0.4), rgba(66, 153, 225, 0));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .back-btn:hover {
+            transform: translateY(-4px);
+            background: rgba(15, 23, 42, 0.9);
+            color: #93c5fd;
+            box-shadow: 0 8px 24px rgba(7, 14, 26, 0.3);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+        .back-btn:hover::before {
+            opacity: 1;
+        }
+        /* 联系容器：适配深空风格 */
+        .contact-container {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(7, 14, 26, 0.4);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            backdrop-filter: blur(8px);
+            text-align: center;
+        }
+        .contact-container h1 {
+            color: #60a5fa;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.2);
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
+        }
+        /* 联系卡片：适配深空风格 */
+        .contact-card {
+            background: rgba(20, 30, 50, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: left;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+            transition: all 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(7, 14, 26, 0.2);
+            border-color: rgba(96, 165, 250, 0.2);
+        }
+        .contact-card h2 {
+            color: #93c5fd;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contact-card p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .contact-card .email {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #60a5fa;
+            word-break: break-all;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.1);
+        }
+        /* 提示区域：适配深空风格 */
+        .contact-tips {
+            background: rgba(20, 30, 50, 0.6);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            margin-top: 20px;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+        }
+        .contact-tips h3 {
+            color: #93c5fd;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .contact-tips ul {
+            list-style: disc;
+            padding-left: 20px;
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+        .contact-tips li {
+            margin-bottom: 8px;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 15px;
+            }
+            .contact-container {
+                padding: 20px;
+            }
+            .contact-container h1 {
+                font-size: 1.6rem;
+            }
+            .contact-card {
+                padding: 20px;
+            }
+            .contact-card h2 {
+                font-size: 1.3rem;
+            }
+            .contact-card .email {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="index.html" class="back-btn">← 返回首页</a>
+
+        <div class="contact-container">
+            <h1>联系我们</h1>
+            
+            <div class="contact-card">
+                <h2>📧 官方邮箱</h2>
+                <p>如需反馈问题、提出建议或申请加入探星阁团队，请发送邮件至：</p>
+                <p class="email">tanxg2023@163.com</p>
+                <p>邮件请注明来意，我们会在1-3个工作日内回复你的邮件。</p>
+            </div>
+            
+            <div class="contact-card">
+                <h2>💬 微信公众号</h2>
+                <p>也可以通过我们的官方公众号“探星阁”获取最新资讯</p>
+            </div>
+            
+            <div class="contact-tips">
+                <h3>Tips</h3>
+                <ul>
+                    <li>有意愿加入者请携带个人简历；</li>
+                    <li>非相关领域的广告、推广邮件将谢绝回复。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 鼠标交互：粒子层跟随鼠标移动 -->
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            document.querySelector('body::before').style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body>
+</html>
