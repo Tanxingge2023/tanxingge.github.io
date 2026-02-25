@@ -9,7 +9,7 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box; /* 全局盒模型，避免padding撑大元素 */
         }
         /* 基础布局：背景铺满全屏 */
         body {
@@ -18,7 +18,6 @@
             padding: 0;
             line-height: 1.7;
             color: #e2e8f0;
-            /* 深空渐变背景 + fixed固定 */
             background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
             background-attachment: fixed;
             min-height: 100vh;
@@ -39,13 +38,37 @@
             pointer-events: none;
             transition: transform 0.1s ease;
         }
-        /* 内容容器：控制宽度，和其他页面一致 */
+        /* 内容容器：控制最大宽度，自适应留白 */
         .page-wrapper {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
             z-index: 1;
+            width: 100%; /* 确保容器占满可用宽度 */
+        }
+        /* 头部标题：适配深空风格 */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 0;
+            background: linear-gradient(120deg, #1e293b, #0f172a);
+            color: #60a5fa;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(7, 14, 26, 0.4);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            backdrop-filter: blur(8px);
+            transform: translateY(0);
+            transition: transform 0.5s ease;
+        }
+        .header:hover {
+            transform: translateY(-3px);
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
         }
         /* 返回按钮：适配深空风格 */
         .back-btn {
@@ -90,30 +113,6 @@
         .back-btn:hover::before {
             opacity: 1;
         }
-        /* 头部标题：适配深空风格 */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 30px 0;
-            /* 深空渐变替代原有渐变 */
-            background: linear-gradient(120deg, #1e293b, #0f172a);
-            color: #60a5fa;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(7, 14, 26, 0.4);
-            border: 1px solid rgba(96, 165, 250, 0.15);
-            backdrop-filter: blur(8px);
-            transform: translateY(0);
-            transition: transform 0.5s ease;
-        }
-        .header:hover {
-            transform: translateY(-3px);
-        }
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
-        }
         /* 内容区域：适配深空风格 */
         .content-section {
             margin-bottom: 60px;
@@ -134,7 +133,6 @@
             left: 0;
             width: 0;
             height: 3px;
-            /* 调整下划线颜色 */
             background: #60a5fa;
             transition: width 0.4s ease;
         }
@@ -194,26 +192,35 @@
         .main-card:hover h2 {
             color: #93c5fd;
         }
-        /* 二级子卡片网格：优化动画 */
+        /* 二级子卡片网格：核心逻辑 - 自适应间距+最多4列 */
         .sub-card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            /* 关键：minmax(280px, 1fr) 固定最小宽度，auto-fit 自动适配列数，最多4列 */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            /* 自适应间距：使用百分比+最小固定值，保证不同设备间距视觉一致 */
+            gap: clamp(12px, 2vw, 20px); 
+            /* 卡片居中，左右留白均匀 */
+            justify-items: center;
+            width: 100%;
             height: 0;
             opacity: 0;
             visibility: hidden;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateY(20px);
+            overflow: visible;
         }
         .sub-card-grid.show {
             height: auto;
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
-            padding-bottom: 10px;
+            padding-bottom: 20px;
         }
-        /* 二级子卡片：适配深空风格 */
+        /* 二级子卡片：固定尺寸（280×210），永不改变 */
         .sub-card {
+            width: 280px;
+            height: 210px;
+            box-sizing: border-box;
             background: rgba(15, 23, 42, 0.7);
             padding: 20px;
             border-radius: 16px;
@@ -225,6 +232,7 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0; /* 强制不收缩 */
         }
         /* 子卡片光效 */
         .sub-card::before {
@@ -244,10 +252,11 @@
             transform: translateY(-6px) scale(1.02);
             box-shadow: 0 10px 20px rgba(7, 14, 26, 0.3);
             border-color: rgba(96, 165, 250, 0.3);
+            z-index: 10;
         }
         .sub-card img {
             width: 100%;
-            height: 140px;
+            height: 120px;
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -262,17 +271,32 @@
             color: #60a5fa;
             font-weight: 600;
             transition: color 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
         }
         .sub-card:hover h3 {
             color: #93c5fd;
         }
-        /* 响应式适配 */
+        /* 响应式适配：仅限制最大列数，不改变卡片尺寸和间距逻辑 */
+        @media (max-width: 1200px) {
+            /* 屏幕≤1200px时，最多4列（自动适配） */
+            .sub-card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
         @media (max-width: 768px) {
             .page-wrapper {
                 padding: 15px;
             }
+            /* 移动端最多1列，间距仍自适应 */
             .sub-card-grid {
                 grid-template-columns: 1fr;
+                gap: clamp(12px, 2vw, 20px);
+            }
+            .sub-card {
+                margin: 0 auto; /* 居中 */
             }
             .main-card::after {
                 font-size: 1rem;
@@ -321,14 +345,19 @@
                     <img src="cover2.jpg" alt="电动力学讲义封面">
                     <h3>电动力学</h3>
                 </div>
-                <div class="sub-card" onclick="window.location.href='statistical mechanics.html'">
-                    <img src="cover3.png" alt="统计力学讲义封面">
-                    <h3>统计力学</h3>
-                </div>
-                <div class="sub-card" onclick="window.location.href='quantum mechanics.html'">
-                    <img src="cover4.png" alt="量子力学讲义封面">
+                <!-- 可新增卡片测试：最多自动排4列，超出换行 -->
+                <!-- <div class="sub-card">
+                    <img src="cover3.jpg" alt="量子力学封面">
                     <h3>量子力学</h3>
                 </div>
+                <div class="sub-card">
+                    <img src="cover4.jpg" alt="热力学封面">
+                    <h3>热力学与统计物理</h3>
+                </div>
+                <div class="sub-card">
+                    <img src="cover5.jpg" alt="相对论封面">
+                    <h3>相对论基础</h3>
+                </div> -->
             </div>
         </div>
     </div>
@@ -340,11 +369,9 @@
 
         // 页面加载时恢复状态
         window.addEventListener('DOMContentLoaded', function() {
-            // 从localStorage获取保存的状态
             const isExpanded = localStorage.getItem(EXPANDED_STATE_KEY) === 'true';
             
             if (isExpanded) {
-                // 恢复展开状态
                 document.getElementById('subCardGrid').classList.add('show');
                 document.getElementById('mainCard').classList.add('expanded');
             }
@@ -354,12 +381,9 @@
             const subCardGrid = document.getElementById('subCardGrid');
             const mainCard = document.getElementById('mainCard');
             
-            // 切换子卡片显示状态
             const isNowExpanded = subCardGrid.classList.toggle('show');
-            // 切换主卡片展开状态（用于箭头旋转）
             mainCard.classList.toggle('expanded');
             
-            // 将当前状态保存到localStorage
             localStorage.setItem(EXPANDED_STATE_KEY, isNowExpanded);
         }
 
