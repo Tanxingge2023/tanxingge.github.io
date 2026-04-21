@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../logo.jpg" type="image/jpeg">
-    <title>学习资源中心（科学）</title>
+    <title>Learning Resources (Sci.)</title>
     <style>
         * {
             margin: 0;
@@ -18,9 +18,7 @@
     padding: 0;
     line-height: 1.7;
     color: #e2e8f0;
-    /* 核心修改：你的背景图片，叠加深色遮罩保证文字清晰 */
     background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url("../bg2.jpg");
-    /* 背景图片全屏适配 */
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
@@ -291,69 +289,61 @@
 </head>
 <body>
     <div class="page-wrapper">
-        <a href="../index.html" class="back-btn">← 返回首页</a>
+        <a href="../index.html" class="back-btn">← Back to Home</a>
 
         <div class="header">
-            <h1>学习资源中心（科学）</h1>
+            <h1>Learning Resources (Science)</h1>
         </div>
 
         <div class="content-section">
-            <h2>下载说明</h2>
-            <p>1. 探星阁所有学习资源均为免费下载；转载请注明出处，禁止私自商用；</p>
-            <p>2. 点击对应卡片进入详情页，即可查看讲义简介并找到PDF下载门户；</p>
-            <p>3. 若下载链接失效，请及时通过邮件或公众号联系反馈；</p>
+            <h2>Download Instructions</h2>
+            <p>1. All learning resources on TanXG are free for download. Please indicate the source for reprinting, and commercial use is strictly prohibited.</p>
+            <p>2. Click the corresponding card to enter the details page, where you can view the introduction and access the PDF download link.</p>
+            <p>3. If the download link is invalid, please contact us via email or official WeChat account for feedback.</p>
         </div>
 
-        <!-- 第一组：理论物理讲义 -->
         <div class="content-section">
             <div class="main-card" onclick="toggleSubCards(this, 'group1')">
-                <h2>理论物理讲义</h2>
+                <h2>Theoretical Physics Lecture Notes</h2>
             </div>
             <div class="sub-card-grid" data-group="group1">
                 <div class="sub-card" onclick="window.location.href='../lecturenotes/theoretical-mechanics/theoretical-mechanics.html'">
                     <img src="../lecturenotes/theoretical-mechanics/理论力学讲义封面.jpg" >
-                    <h3>理论力学</h3>
+                    <h3>Theoretical Mechanics</h3>
                 </div>
                 <div class="sub-card" onclick="window.location.href='../lecturenotes/electrodynamics/electrodynamics.html'">
                     <img src="../lecturenotes/electrodynamics/电动力学讲义封面.jpg" >
-                    <h3>电动力学</h3>
+                    <h3>Electrodynamics</h3>
                 </div>
             </div>
         </div>
 
-        <!-- 第二组：物理学研讨班课件 -->
         <div class="content-section">
             <div class="main-card" onclick="toggleSubCards(this, 'group2')">
-                <h2>物理学课件</h2>
+                <h2>Physics Course Slides</h2>
             </div>
             <div class="sub-card-grid" data-group="group2">
                 <div class="sub-card" onclick="window.location.href='../lecturenotes/general-relativity/general-relativity.html'">
                     <img src="../lecturenotes/general-relativity/ppt/cover.png" >
-                    <h3>广义相对论</h3>
+                    <h3>General Relativity</h3>
                 </div>
             </div>
         </div> 
-                        <!-- 页脚 -->
-        <footer class="footer">
-            <p>© 2026 探星阁</p>
+
+        <footer class="footer" style="text-align:center; color:#94a3b8; margin-top:40px;">
+            <p>© 2026 TanXG</p>
         </footer>
     </div>
 
     <script>
-        // 独立控制每组菜单
         function toggleSubCards(cardElement, groupKey) {
-            // 找到对应组的子卡片
             const subGrid = document.querySelector(`.sub-card-grid[data-group="${groupKey}"]`);
-            // 切换显示/隐藏
             const isExpanded = subGrid.classList.toggle('show');
             cardElement.classList.toggle('expanded');
-            // 本地存储状态（可选）
             localStorage.setItem(`card_expanded_${groupKey}`, isExpanded);
         }
 
-        // 页面加载时恢复状态
         window.addEventListener('DOMContentLoaded', function() {
-            // 恢复第一组
             const group1Expanded = localStorage.getItem('card_expanded_group1') === 'true';
             const group1Card = document.querySelector('.main-card');
             const group1Grid = document.querySelector('.sub-card-grid[data-group="group1"]');
@@ -362,7 +352,6 @@
                 group1Grid.classList.add('show');
             }
 
-            // 恢复第二组
             const group2Expanded = localStorage.getItem('card_expanded_group2') === 'true';
             const group2Card = document.querySelectorAll('.main-card')[1];
             const group2Grid = document.querySelector('.sub-card-grid[data-group="group2"]');
